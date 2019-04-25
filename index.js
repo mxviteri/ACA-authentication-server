@@ -1,9 +1,10 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
 const AuthRoutes = require('./express/routes/auth')
 
-mongoose.connect("mongodb+srv://admin:admin@cluster0-kn2s0.mongodb.net/test?retryWrites=true")
+mongoose.connect(/* INSERT DB CONNECTION */)
 
 const port = process.env.PORT || 4001
 const app = express()
@@ -13,6 +14,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.use(bodyParser.json())
+app.use(cookieParser())
 app.use('/auth', AuthRoutes)
 
 app.get('/', (req, res) => res.send('Default route!'))

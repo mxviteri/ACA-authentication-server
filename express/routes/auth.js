@@ -3,6 +3,15 @@ const jwt = require('jsonwebtoken')
 const router = express.Router()
 const AuthController = require('../controllers/auth')
 
+function isAuthenticated(req, res, next) {
+  if (!req.cookies.id_token) {
+    return res.status(401).send('Unauthorized')
+  }
+  const payload = jwt.verify(req.cookies.id_token, "secret")
+  req.user = payload._doc
+  return next()
+}
+
 router.post('/signup', (req, res) => {
   AuthController.SignUp(req.body)
     .then(() => res.send('User created successfully'))

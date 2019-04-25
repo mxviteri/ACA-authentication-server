@@ -12,7 +12,7 @@ export function login({ userName, password }) {
       data: JSON.stringify({ userName, password })
     })
     .then(res => {
-      document.cookie = `id_token=${res.data};max-age=60;`
+      document.cookie = `id_token=${res.data};max-age=300;`
       const payload = jwt.verify(res.data, 'secret')
       dispatch({
         type: 'LOGIN',
@@ -49,4 +49,34 @@ export function setUser(user) {
     type: 'SET_USER',
     value: user
   }
+}
+
+export function updateUser(userName) {
+  return dispatch => {
+    return axios({
+      url: '/auth/user',
+      method: 'PUT',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      data: JSON.stringify({ userName }),
+      withCredentials: true
+    })
+    .catch(err => Promise.reject(err))
+  }  
+}
+
+export function updatePassword(password) {
+  return dispatch => {
+    return axios({
+      url: '/auth/password',
+      method: 'PUT',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      data: JSON.stringify({ password }),
+      withCredentials: true
+    })
+    .catch(err => Promise.reject(err))
+  }  
 }

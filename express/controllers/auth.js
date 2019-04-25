@@ -13,7 +13,18 @@ const Login = ({ userName, password }) => {
   return AuthModel.findOne({ userName, password: hash })
 }
 
+const UpdateUser = (user, userName) => {
+  return AuthModel.updateOne({ _id: user._id }, { $set: { userName }})
+}
+
+const UpdatePassword = (user, password) => {
+  const hash = crypto.createHash('md5').update(password).digest("hex")
+  return AuthModel.updateOne({ _id: user._id }, { $set: { password: hash }})
+}
+
 module.exports = {
   SignUp,
-  Login
+  Login,
+  UpdateUser,
+  UpdatePassword
 }
