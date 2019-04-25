@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { TextField, Button } from '@material-ui/core'
 import styled from 'styled-components'
+import axios from 'axios';
 
 const FlexForm = styled.form`
   margin: 50px;
@@ -28,16 +29,8 @@ class SignUp extends Component {
 
   signUp = (e) => {
     e.preventDefault()
-    fetch('/auth/signup', {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ ...this.state })
-    })
-    .then(res => res.text())
-    .then(result => this.setState({ message: result }))
-    .then(() => this.setState({ userName: '', password: '' }))
+    this.props.signUp({ ...this.state })
+      .catch(err => this.setState({ userName: '', password: '', message: err.response.data }))
   }
 
   render() {

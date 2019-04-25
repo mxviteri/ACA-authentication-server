@@ -6,10 +6,23 @@ import Home from './components/Home'
 import Dashboard from './containers/Dashboard'
 import NotFound from './components/NotFound'
 
+const checkAuth = () => {
+  const cookies  = cookie.parse(document.cookie)
+  return cookies.id_token ? true : false
+}
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (
+    checkAuth() === true
+      ? <Component {...props} />
+      : <Redirect to='/' />
+  )} />
+)
+
 const Router = () => (
   <Switch>
     <Route exact path="/" component={Home} />
-    <Route path="/dashboard" component={Dashboard} />
+    <PrivateRoute path="/dashboard" component={Dashboard} />
     <Route component={NotFound} />
   </Switch>
 )

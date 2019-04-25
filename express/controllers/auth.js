@@ -9,7 +9,8 @@ const SignUp = ({ userName, password }) => {
 }
 
 const Login = ({ userName, password }) => {
-  // contents of login function
+  const hash = crypto.createHash('md5').update(password).digest("hex")
+  return AuthModel.findOne({ userName, password: hash })
 }
 
 module.exports = {

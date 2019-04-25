@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { TextField, Button } from '@material-ui/core'
 import styled from 'styled-components'
-import jwt from 'jsonwebtoken'
 
 const FlexForm = styled.form`
   margin: 50px;
@@ -30,24 +29,8 @@ class Login extends Component {
 
   login = (e) => {
     e.preventDefault()
-    fetch('/auth/login', {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ ...this.state })
-    })
-    .then(res => {
-      if (res.status !== 200) throw new Error('user could not be found')
-      return res.text()
-    })
-    .then(token => {
-      // create cookie here
-      const payload = jwt.verify(token, 'secret')
-      return this.props.login(payload._doc)
-    })
-    .catch(err => this.setState({ message: err.message }))
-    .then(() => this.setState({ userName: '', password: '' }))
+    return this.props.login({ ...this.state })
+      .catch(err => this.setState({ userName: '', password: '', message: err.response.data }))
   }
 
   render() {

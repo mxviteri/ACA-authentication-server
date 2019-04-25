@@ -6,7 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
-import SignUp from './auth/SignUp'
+import SignUp from '../containers/SignUp'
 import Login from '../containers/Login'
 
 const Wrapper = styled.div`
